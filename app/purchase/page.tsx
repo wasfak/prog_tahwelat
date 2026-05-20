@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { dbConnect } from "@/lib/mongoose";
 import { Batch, Code } from "@/models";
 import { BatchesTable } from "./batches-table";
+import { UploadCard } from "./upload-card";
 
 type LeanBatch = {
   _id: unknown;
@@ -58,7 +59,7 @@ export default async function PurchasePage() {
         <StatCard label="Drafts" value={drafts} tone="amber" />
         <StatCard label="Submitted" value={submitted} tone="emerald" />
       </div>
-      {/* <UploadCard /> */}
+      <UploadCard />
       <div>
         <h2 className="text-xl font-semibold text-slate-900 mb-4">
           Your batches
