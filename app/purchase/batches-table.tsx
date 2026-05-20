@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-// import { submitBatch } from "./actions";
+import { submitBatch } from "./actions";
 import { toast } from "sonner";
 import { Send, CheckCircle2 } from "lucide-react";
 
@@ -20,9 +20,16 @@ export function BatchesTable({ batches }: { batches: Batch[] }) {
   const [pending, setPending] = useState<string | null>(null);
 
   async function handleSubmit(id: string) {
-    // const res = await submitBatch(id);
-    toast.success("test " + id);
+    setPending(id);
+    const res = await submitBatch(id);
+    setPending(null);
+    if (res?.error) {
+      toast.error(res.error);
+      return;
+    }
+    toast.success("Batch submitted to auditor");
   }
+
   if (batches.length === 0) {
     return (
       <div className="rounded-2xl bg-white ring-1 ring-slate-200/70 p-12 text-center">
@@ -65,7 +72,7 @@ export function BatchesTable({ batches }: { batches: Batch[] }) {
                 {b.codeCount}
               </td>
               <td className="px-5 py-3.5 text-slate-500">
-                {new Date(b.uploadedAt).toISOString().slice(0, 10)}
+                {b.uploadedAt.slice(0, 10)}
               </td>
               <td className="px-5 py-3.5">
                 {b.status === "draft" ? (
@@ -95,8 +102,7 @@ export function BatchesTable({ batches }: { batches: Batch[] }) {
                   </Button>
                 ) : (
                   <span className="text-xs text-slate-400">
-                    {b.submittedAt &&
-                      new Date(b.submittedAt).toISOString().slice(0, 10)}
+                    {b.submittedAt && b.submittedAt.slice(0, 10)}
                   </span>
                 )}
               </td>
