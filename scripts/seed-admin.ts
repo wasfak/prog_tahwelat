@@ -8,8 +8,8 @@ async function main() {
 
   await dbConnect();
 
-  const username = "auditor";
-  const password = "123456";
+  const username = "wasfyz";
+  const password = "Jvaledyd12@";
 
   const existing = await User.findOne({ username });
   if (existing) {
@@ -22,7 +22,7 @@ async function main() {
   await User.create({
     username,
     passwordHash,
-    role: "auditor",
+    role: "admin",
   });
 
   console.log(
